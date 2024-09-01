@@ -103,7 +103,9 @@ def play_voice(text):
 
 # Main function to run the Streamlit app
 def main():
-    st.title("Mental Health Companion")
+    # display an image from the local directory
+    image_path = "MM221.jpg"  # Replace with your local image path
+    st.image(image_path, use_column_width=80,)
 
     # Sidebar for Track Symptoms
     with st.sidebar:
@@ -138,7 +140,7 @@ def main():
                 st.error("Please select at least one symptom.")
 
     # Main area for Chat with Bot
-    st.header("Chat with Bot")
+    st.header("Chat with MindMate")
     user_message = st.text_input("Your message:")
     if st.button("Send Message"):
         if user_message:
