@@ -160,12 +160,12 @@ def main():
             margin-bottom: 10px;
         }
         .user-icon {
-            background-color: #370984;
+            background-color: #8964c7;
             border-radius: 50%;
             margin-right: 10px;
         }
         .user-text {
-            background-color: #370984;
+            background-color: #8964c7;
             padding: 10px;
             border-radius: 15px;
             max-width: 70%;
@@ -178,12 +178,12 @@ def main():
             margin-bottom: 10px;
         }
         .bot-icon {
-            background-color: #370984;
+            background-color: #8964c7;
             border-radius: 50%;
             margin-right: 10px;
         }
         .bot-text {
-            background-color: #370984;
+            background-color: #8964c7;
             padding: 10px;
             border-radius: 15px;
             max-width: 70%;
