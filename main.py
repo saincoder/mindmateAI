@@ -132,7 +132,6 @@ def main():
         if st.button("Get Prescription"):
             if symptoms_str:
                 prescription = generate_prescription(mood, symptoms_str, behaviors, medication_preference, additional_info)
-                st.write(f"Prescription: {prescription}")
                 st.session_state['chat_history'].append(f"Prescription: {prescription}")
                 st.markdown("[Chat with the doctor](#chat-with-bot)")
             else:
@@ -141,19 +140,89 @@ def main():
     # Main area for Chat with Bot
     st.header("Chat with Bot")
     user_message = st.text_input("Your message:")
-    user_history = st.text_area("Your history (optional):")
     if st.button("Send Message"):
         if user_message:
-            bot_response = chat_with_bot(user_message, user_history)
+            bot_response = chat_with_bot(user_message)
             st.session_state['chat_history'].append(f"User: {user_message}")
             st.session_state['chat_history'].append(f"Bot: {bot_response}")
         else:
             st.error("Please enter a message.")
 
-    # Display chat history
-    st.write("### Chat History")
-    for message in st.session_state['chat_history']:
-        st.write(message)
+    # Custom CSS for message bubbles with user and bot icons, and prescription background
+    st.markdown("""
+        <style>
+        .user-bubble {
+            display: flex;
+            justify-content: flex-end;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+        .user-icon {
+            background-color: #370984;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .user-text {
+            background-color: #370984;
+            padding: 10px;
+            border-radius: 15px;
+            max-width: 70%;
+            text-align: right;
+        }
+        .bot-bubble {
+            display: flex;
+            justify-content: flex-start;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+        .bot-icon {
+            background-color: #370984;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .bot-text {
+            background-color: #370984;
+            padding: 10px;
+            border-radius: 15px;
+            max-width: 70%;
+            text-align: left;
+        }
+        .prescription {
+            background-color: #E6F7FF;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            color: #004085;
+            border: 1px solid #B8DAFF;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+    # Display chat history with bubble UI and icons, including prescription style
+    user_icon_url = "https://img.icons8.com/?size=100&id=108652&format=png&color=000000"  # Replace with actual icon URL
+    bot_icon_url = "https://img.icons8.com/?size=100&id=45060&format=png&color=000000"  # Replace with actual icon URL
+
+    for i, message in enumerate(st.session_state['chat_history']):
+        if message.startswith("User:"):
+            st.markdown(f"""
+                <div class="user-bubble">
+                    <img src="{user_icon_url}" class="user-icon" width="30px" height="30px" />
+                    <div class="user-text">{message.replace('User:', '')}</div>
+                </div>
+                """, unsafe_allow_html=True)
+        elif message.startswith("Prescription:"):
+            st.markdown(f"""
+                <div class="prescription">
+                    {message.replace('Prescription:', '')}
+                </div>
+                """, unsafe_allow_html=True)
+        else:
+            st.markdown(f"""
+                <div class="bot-bubble">
+                    <img src="{bot_icon_url}" class="bot-icon" width="30px" height="30px" />
+                    <div class="bot-text">{message.replace('Bot:', '')}</div>
+                </div>
+                """, unsafe_allow_html=True)
 
 if __name__ == '__main__':
     main()
