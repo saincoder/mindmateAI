@@ -5,14 +5,13 @@ from io import BytesIO
 from groq import Groq, APITimeoutError, APIConnectionError
 
 # Initialize the Groq client with the API key from the environment
-# client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 client = Groq(api_key='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')
 
 # Function to read the prompt from the text file for the chatbot interaction
 def load_prompt(filename):
     with open(filename, 'r') as file:
         return file.read()
-    
+
 # Function to read the prompt for the prescription generation
 def load_pre(filename):
     with open(filename, 'r') as file:
@@ -112,9 +111,19 @@ def main():
         mood = st.selectbox("Select your mood", [
             "Happy", "Sad", "Anxious", "Angry", "Neutral"
         ])
-        symptoms = st.multiselect("Select your symptoms", [
-            "Headache", "Fatigue", "Anxiety", "Stress", "Insomnia", "Dizziness", "Nausea"
-        ])
+        
+        # Display mood-specific symptoms
+        if mood == "Happy":
+            symptoms = st.multiselect("Select your symptoms", ["Excitement", "High energy", "Optimism"])
+        elif mood == "Sad":
+            symptoms = st.multiselect("Select your symptoms", ["Fatigue", "Hopelessness", "Crying spells"])
+        elif mood == "Anxious":
+            symptoms = st.multiselect("Select your symptoms", ["Restlessness", "Palpitations", "Sweating"])
+        elif mood == "Angry":
+            symptoms = st.multiselect("Select your symptoms", ["Irritability", "Outbursts", "Tension"])
+        else:
+            symptoms = st.multiselect("Select your symptoms", ["Calm", "Indifference", "No strong feelings"])
+
         behaviors = st.text_input("Describe your behaviors")
         medication_preference = st.selectbox("Do you want medication in the prescription?", ["Select", "Yes", "No"])
         additional_info = st.text_area("Additional Information (optional)")
